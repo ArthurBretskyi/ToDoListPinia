@@ -1,0 +1,382 @@
+:root {
+  /* Кольори */
+  --color-bg: #f0f2f5;
+  --color-surface: #ffffff;
+  --color-surface-2: #f8f9fb;
+  --color-border: #e5e7eb;
+  --color-text: #111827;
+  --color-text-muted: #6b7280;
+  --color-text-done: #9ca3af;
+
+  /* Бренд */
+  --color-primary: #1a56db;
+  --color-primary-hover: #1447c0;
+  --color-primary-light: #ebf2ff;
+
+  /* Пріоритети */
+  --color-low: #059669;
+  --color-low-bg: #d1fae5;
+  --color-medium: #d97706;
+  --color-medium-bg: #fef3c7;
+  --color-high: #dc2626;
+  --color-high-bg: #fee2e2;
+
+  /* Небезпека */
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
+
+  /* Розміри */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* Анімації */
+  --transition: 0.2s ease;
+}
+
+/* ─── 2. Reset & Base ────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+}
+
+#app {
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px 80px;
+}
+
+/* ─── 3. ToDoView ────────────────────────────── */
+.to-do-view {
+  width: 100%;
+  max-width: 620px;
+}
+
+.to-t-do-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 28px;
+  letter-spacing: -0.5px;
+}
+
+/* Фільтри */
+.filters {
+  display: flex;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.filters button {
+  padding: 7px 20px;
+  border: 2px solid var(--color-border);
+  border-radius: 99px; /* pill shape */
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.filters button:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.filters button.active {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+/* ─── 4. ToDoForm ────────────────────────────── */
+.to-do-form {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.form label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+/* Обгортаємо label + input у div для коректного flex-layout */
+.form > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.form > div:first-child {
+  flex: 1 1 200px; /* поле Title розтягується */
+}
+
+.form input[type='text'],
+.form select {
+  padding: 10px 14px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  color: var(--color-text);
+  background: var(--color-surface-2);
+  outline: none;
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.form input[type='text']:focus,
+.form select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.15);
+  background: var(--color-surface);
+}
+
+.form button[type='submit'] {
+  padding: 10px 24px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+  white-space: nowrap;
+}
+
+.form button[type='submit']:hover {
+  background: var(--color-primary-hover);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.form button[type='submit']:active {
+  transform: translateY(0);
+}
+
+/* ─── 5. ToDoList ────────────────────────────── */
+.to-do-list__container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ─── 6. ToDoItem ────────────────────────────── */
+.to-do-item__container {
+  animation: slideIn 0.25s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.item {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: var(--shadow-sm);
+  transition:
+    box-shadow var(--transition),
+    border-color var(--transition),
+    transform var(--transition);
+}
+
+.item:hover {
+  box-shadow: var(--shadow-md);
+  border-color: #d1d5db;
+  transform: translateY(-1px);
+}
+
+/* Текст виконаної задачі */
+.item.is-done span:first-child {
+  text-decoration: line-through;
+  color: var(--color-text-done);
+}
+
+/* Назва задачі */
+.item > div:first-child span:first-child {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+/* ─── Бейдж пріоритету ───── */
+.priority-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.priority-badge.low {
+  background: var(--color-low-bg);
+  color: var(--color-low);
+}
+
+.priority-badge.medium {
+  background: var(--color-medium-bg);
+  color: var(--color-medium);
+}
+
+.priority-badge.high {
+  background: var(--color-high-bg);
+  color: var(--color-high);
+}
+
+/* ─── Кнопки дій ─────────── */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.actions button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    transform var(--transition);
+}
+
+/* Edit */
+.actions button:first-child {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.actions button:first-child:hover {
+  background: #d0e4ff;
+}
+
+/* Delete */
+.actions button:nth-child(2) {
+  background: #fee2e2;
+  color: var(--color-danger);
+}
+
+.actions button:nth-child(2):hover {
+  background: #fecaca;
+}
+
+.actions button:active {
+  transform: scale(0.96);
+}
+
+/* Чекбокс */
+.actions input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ─── Режим редагування ──── */
+.item input[type='text'],
+.item select {
+  padding: 7px 10px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.item input[type='text']:focus,
+.item select:focus {
+  border-color: var(--color-primary);
+}
+
+/* Save / Cancel у режимі редагування */
+.item button[onClick*='save'],
+.item button[onClick*="emit('save']"] {
+  background: #d1fae5;
+  color: var(--color-low);
+}
+
+.item button[onClick*='cancel'] {
+  background: var(--color-surface-2);
+  color: var(--color-text-muted);
+}
+
+/* ─── 7. Адаптивність ────────────────────────── */
+@media (max-width: 520px) {
+  #app {
+    padding: 20px 12px 60px;
+  }
+
+  .to-t-do-title {
+    font-size: 1.5rem;
+  }
+
+  .form {
+    flex-direction: column;
+  }
+
+  .form > div,
+  .form button[type='submit'] {
+    width: 100%;
+  }
+
+  .item {
+    flex-wrap: wrap;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

@@ -1,11 +1,15 @@
 <template>
     <div class="to-do-form">
-        <form @submit.prevent="onSubmit">
-            <label for="title">Enter Your Task:</label>
+        <form class="form" @submit.prevent="onSubmit">
+            <label for="title">Task:</label>
             <input id="title" type="text" v-model="title" />
 
             <label for="priority">Priority:</label>
-            <input id="priority" type="text" v-model="priority" />
+            <select id="priority" v-model="priority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
 
             <button type="submit">Add</button>
         </form>
@@ -34,4 +38,4 @@ function onSubmit() {
 </script>
   
 
-<style lang="scss" scoped></style>
+<style lang="css" scoped></style>

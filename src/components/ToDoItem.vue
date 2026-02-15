@@ -2,7 +2,10 @@
     <div class="to-do-item__container">
         <div class="item">
             <div v-if="!isEditing">
-                <span>{{ task.title }}</span>
+                <span>{{ task.title }}</span> -
+                <span :class="['priority-badge', task.priority]">
+                    {{ task.priority }}
+                </span>
             </div>
 
             <div v-else>

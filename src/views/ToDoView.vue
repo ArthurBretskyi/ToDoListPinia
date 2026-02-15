@@ -1,7 +1,10 @@
 <template>
     <div class="to-do-view">
+        <h1 class="to-t-do-title">
+            My To Do List
+        </h1>
         <ToDoForm @add="onAddTask" />
-        <div class="filters">
+        <div v-if="tasks.length > 0" class="filters">
             <button :class="{ active: currentFilter === 'all' }" @click="currentFilter = 'all'">
                 All
             </button>
@@ -79,16 +82,4 @@ function onAddTask({ title, priority }) {
 }
 </script>
 
-<style lang="css" scoped>
-.to-do-view {
-    width: 1200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-.active {
-    border: 2px solid yellowgreen;
-}
-</style>
+<style lang="css" ></style>
